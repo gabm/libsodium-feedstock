@@ -1,13 +1,12 @@
-{% set version = "1.0.17" %}
+{% set version = "1.0.18" %}
 
 package:
   name: libsodium
   version: {{ version }}
 
 source:
-  fn: libsodium-{{ version }}.tar.gz
-  url: https://github.com/jedisct1/libsodium/releases/download/{{ version }}/libsodium-{{ version }}.tar.gz
-  sha256: 0cc3dae33e642cc187b5ceb467e0ad0e1b51dcba577de1190e9ffa17766ac2b1
+  url: https://download.libsodium.org/libsodium/releases/libsodium-{{ version }}.tar.gz
+  sha256: 6f504490b342a4f8a4c4a02fc9b866cbef8622d5df4e5452b46be121e46636c1
 
 build:
   number: 0
