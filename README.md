@@ -21,10 +21,17 @@ Current build status
 
 
 <table><tr>
-    <td>Appveyor</td>
+    <td>Travis</td>
     <td>
-      <a href="https://ci.appveyor.com/project/conda-forge/libsodium-feedstock/branch/master">
-        <img alt="windows" src="https://img.shields.io/appveyor/ci/conda-forge/libsodium-feedstock/master.svg?label=Windows">
+      <a href="https://travis-ci.org/conda-forge/libsodium-feedstock">
+        <img alt="macOS" src="https://img.shields.io/travis/conda-forge/libsodium-feedstock/master.svg?label=macOS">
+      </a>
+    </td>
+  </tr><tr>
+    <td>Drone</td>
+    <td>
+      <a href="https://cloud.drone.io/conda-forge/libsodium-feedstock">
+        <img alt="linux" src="https://img.shields.io/drone/build/conda-forge/master.svg?label=Linux">
       </a>
     </td>
   </tr>
