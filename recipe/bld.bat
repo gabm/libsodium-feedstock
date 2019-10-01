@@ -31,7 +31,9 @@ if "%VS_YEAR%" == "2008" (
   if errorlevel 1 exit 1
   set ARTIFACTS_DIR=%SRC_DIR%\bin\%ARCH%\Release\v90\
 ) else (
-  set VCTargetsPath="C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\v140"
+  dir "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0"
+  set VisualStudioVersion=14.0
+  :: set VCTargetsPath="C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\v140"
   cd /d %SRC_DIR%\builds\msvc\vs%VS_YEAR%\
   msbuild libsodium.sln /p:Configuration=DynRelease /p:Platform=%ARCH%
   if errorlevel 1 exit 1
