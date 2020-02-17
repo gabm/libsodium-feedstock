@@ -29,22 +29,28 @@ if "%VS_YEAR%" == "2008" (
   cd /d %SRC_DIR%
   call msvc-scripts\process.bat
   if errorlevel 1 exit 1
-  set ARTIFACTS_DIR=%SRC_DIR%\bin\%ARCH%\Release\v90\
+  set ARTIFACTS_DIR=%SRC_DIR%\bin\%ARCH%\Release\v90
 ) else (
   cd /d %SRC_DIR%\builds\msvc\vs%VS_YEAR%\
   msbuild libsodium.sln /p:Configuration=DynRelease /p:Platform=%ARCH%
   if errorlevel 1 exit 1
   msbuild libsodium.sln /p:Configuration=StaticRelease /p:Platform=%ARCH%
   if errorlevel 1 exit 1
-  set ARTIFACTS_DIR=%SRC_DIR%\bin\%ARCH%\Release\v140\
+  set ARTIFACTS_DIR=%SRC_DIR%\bin\%ARCH%\Release\v140
 )
 
 if "%VS_YEAR%" == "2010" (
-  set ARTIFACTS_DIR=%SRC_DIR%\bin\%ARCH%\Release\v100\
+  set ARTIFACTS_DIR=%SRC_DIR%\bin\%ARCH%\Release\v100
 )
 
-move %ARTIFACTS_DIR%\dynamic\libsodium.dll %LIBRARY_BIN%
-move %ARTIFACTS_DIR%\dynamic\libsodium.lib %LIBRARY_LIB%
-move %ARTIFACTS_DIR%\static\libsodium.lib %LIBRARY_LIB%\libsodium_static.lib
+if "%VS_YEAR%" == "2017" (
+  set ARTIFACTS_DIR=%SRC_DIR%\bin\%ARCH%\Release\v141
+)
+
+if not exist %ARTIFACTS_DIR%\dynamic\libsodium.dll    exit 1
+
+move /y %ARTIFACTS_DIR%\dynamic\libsodium.dll %LIBRARY_BIN%
+move /y  %ARTIFACTS_DIR%\dynamic\libsodium.lib %LIBRARY_LIB%
+move /y %ARTIFACTS_DIR%\static\libsodium.lib %LIBRARY_LIB%\libsodium_static.lib
 xcopy /s /y /i %SRC_DIR%\src\libsodium\include\sodium %LIBRARY_INC%\sodium
 xcopy /s /y %SRC_DIR%\src\libsodium\include\sodium.h %LIBRARY_INC%\
