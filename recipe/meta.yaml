@@ -5,24 +5,22 @@ package:
   version: {{ version }}
 
 source:
-  fn: libsodium-{{ version }}.tar.gz
-  url: https://github.com/jedisct1/libsodium/releases/download/{{ version }}-RELEASE/libsodium-{{ version }}.tar.gz
+  url: https://download.libsodium.org/libsodium/releases/libsodium-{{ version }}.tar.gz
   sha256: 6f504490b342a4f8a4c4a02fc9b866cbef8622d5df4e5452b46be121e46636c1
 
 build:
   number: 0
   run_exports:
-    # so name changes in bugfix revisions.  Pin to bugfix revision.
-    #    https://abi-laboratory.pro/tracker/timeline/libsodium/
-    - {{ pin_subpackage('libsodium', max_pin='x.x.x') }}
+    # libsodium can bump its ABI version in patch releases,
+    # so we have to pin it down
+    - {{ pin_subpackage("libsodium", max_pin="x.x.x") }}
 
 requirements:
-  host:
-    - msinttypes  # [win and vc<14]
-
   build:
     - {{ compiler('c') }}
-    - make  # [ppc64le]
+    - make
+  host:
+    - msinttypes  # [win and vc<14]
 
 test:
   commands:
