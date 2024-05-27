@@ -27,7 +27,7 @@ requirements:
 test:
   commands:
     - test -f ${PREFIX}/include/sodium.h         # [unix]
-    - test -f ${PREFIX}/lib/libsodium.a          # [unix]
+    - test ! -f ${PREFIX}/lib/libsodium.a        # [unix]
     - test -f ${PREFIX}/lib/libsodium.dylib      # [osx]
     - test -f ${PREFIX}/lib/libsodium.so         # [linux]
 
@@ -35,7 +35,7 @@ test:
     - if not exist %LIBRARY_INC%\sodium\version.h      exit 1  # [win]
     - if not exist %LIBRARY_BIN%\libsodium.dll         exit 1  # [win]
     - if not exist %LIBRARY_LIB%\libsodium.lib         exit 1  # [win]
-    - if not exist %LIBRARY_LIB%\libsodium_static.lib  exit 1  # [win]
+    - if exist %LIBRARY_LIB%\libsodium_static.lib  exit 1      # [win]
 
 about:
   home: http://libsodium.org
