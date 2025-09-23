@@ -37,6 +37,31 @@ test:
     - if not exist %LIBRARY_LIB%\libsodium.lib         exit 1  # [win]
     - if exist %LIBRARY_LIB%\libsodium_static.lib  exit 1      # [win]
 
+outputs:
+  - name: libsodium
+
+
+  - name: libsodium-static
+    script: build_static.sh # [unix]
+    script: bld_static.bat # [win]
+    requirements:
+      build:
+        - libtool  # [unix]
+        - {{ compiler('c') }}
+        - {{ stdlib("c") }}
+        - make
+      host:
+        - msinttypes  # [win and vc<14]
+      run:
+        - {{ pin_subpackage('libsodium', exact=True) }}
+    test:
+      commands:
+        - test -f ${PREFIX}/lib/libsodium.a        # [unix]
+        - if not exist %LIBRARY_LIB%\libsodium_static.lib  exit 1      # [win]
+
+
+
+
 about:
   home: http://libsodium.org
   license: ISC
