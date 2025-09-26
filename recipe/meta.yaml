@@ -1,7 +1,7 @@
 {% set version = "1.0.20" %}
 
 package:
-  name: libsodium
+  name: libsodium-feedstock  # no package with this name is actually being built, see the outputs section below!
   version: {{ version }}
 
 source:
@@ -10,35 +10,37 @@ source:
 
 build:
   number: 1
-  run_exports:
-    # libsodium can bump its ABI version in patch releases,
-    # so we have to pin it down
-    - {{ pin_subpackage("libsodium", max_pin="x.x.x") }}
-
-requirements:
-  build:
-    - libtool  # [unix]
-    - {{ compiler('c') }}
-    - {{ stdlib("c") }}
-    - make
-  host:
-    - msinttypes  # [win and vc<14]
-
-test:
-  commands:
-    - test -f ${PREFIX}/include/sodium.h         # [unix]
-    - test ! -f ${PREFIX}/lib/libsodium.a        # [unix]
-    - test -f ${PREFIX}/lib/libsodium.dylib      # [osx]
-    - test -f ${PREFIX}/lib/libsodium.so         # [linux]
-
-    - if not exist %LIBRARY_INC%\sodium.h              exit 1  # [win]
-    - if not exist %LIBRARY_INC%\sodium\version.h      exit 1  # [win]
-    - if not exist %LIBRARY_BIN%\libsodium.dll         exit 1  # [win]
-    - if not exist %LIBRARY_LIB%\libsodium.lib         exit 1  # [win]
-    - if exist %LIBRARY_LIB%\libsodium_static.lib  exit 1      # [win]
 
 outputs:
   - name: libsodium
+    script: build_dynamic.sh  # [unix]
+    script: bld_dynamic.bat  # [win]
+    build:
+      run_exports:
+      # libsodium can bump its ABI version in patch releases,
+      # so we have to pin it down
+      - {{ pin_subpackage("libsodium", max_pin="x.x.x") }}
+    requirements:
+      build:
+        - libtool  # [unix]
+        - {{ compiler('c') }}
+        - {{ stdlib("c") }}
+        - make
+      host:
+        - msinttypes  # [win and vc<14]
+
+    test:
+      commands:
+        - test -f ${PREFIX}/include/sodium.h         # [unix]
+        - test ! -f ${PREFIX}/lib/libsodium.a        # [unix]
+        - test -f ${PREFIX}/lib/libsodium.dylib      # [osx]
+        - test -f ${PREFIX}/lib/libsodium.so         # [linux]
+
+        - if not exist %LIBRARY_INC%\sodium.h              exit 1  # [win]
+        - if not exist %LIBRARY_INC%\sodium\version.h      exit 1  # [win]
+        - if not exist %LIBRARY_BIN%\libsodium.dll         exit 1  # [win]
+        - if not exist %LIBRARY_LIB%\libsodium.lib         exit 1  # [win]
+        - if exist %LIBRARY_LIB%\libsodium_static.lib  exit 1      # [win]
 
 
   - name: libsodium-static
@@ -77,6 +79,7 @@ about:
   dev_url: https://github.com/jedisct1/libsodium
 
 extra:
+  feedstock-name: libsodium
   recipe-maintainers:
     - jakirkham
     - minrk
